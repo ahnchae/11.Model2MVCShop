@@ -17,8 +17,8 @@ public class Search {
 	private int startRowNum;
 	//추가기능
 	private String sorting;
-	private String searchKeyword1;
-	private String searchKeyword2;
+	private int searchKeyword1;
+	private int searchKeyword2;
 	private boolean priceSearch;
 	
 	///Constructor
@@ -41,19 +41,19 @@ public class Search {
 		this.sorting = sorting;
 	}
 
-	public String getSearchKeyword1() {
+	public int getSearchKeyword1() {
 		return searchKeyword1;
 	}
 
-	public void setSearchKeyword1(String searchKeyword1) {
+	public void setSearchKeyword1(int searchKeyword1) {
 		this.searchKeyword1 = searchKeyword1;
 	}
 
-	public String getSearchKeyword2() {
+	public int getSearchKeyword2() {
 		return searchKeyword2;
 	}
 
-	public void setSearchKeyword2(String searchKeyword2) {
+	public void setSearchKeyword2(int searchKeyword2) {
 		this.searchKeyword2 = searchKeyword2;
 	}
 
@@ -97,9 +97,11 @@ public class Search {
 
 	@Override
 	public String toString() {
-		return "Search [currentPage=" + currentPage + ", searchCondition="
-				+ searchCondition + ", searchKeyword=" + searchKeyword
-				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
+				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
+				+ ", sorting=" + sorting + ", searchKeyword1=" + searchKeyword1 + ", searchKeyword2=" + searchKeyword2
+				+ ", priceSearch=" + priceSearch + "]";
 	}
+
+
 }

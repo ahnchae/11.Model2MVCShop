@@ -4,45 +4,63 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<%--
-<%@page import="com.model2.mvc.service.domain.Purchase"%>
-<%@page import="com.model2.mvc.service.domain.User"%>
-<%@page import="com.model2.mvc.service.domain.Product"%>
-<% 
-	Product product = (Product)request.getAttribute("product");
-	User user = (User)session.getAttribute("user");
-	System.out.println("addPurchaseView : session user : "+user);
-%>
- --%>
-
 <html>
 <head>
 
-<link rel="stylesheet" href="/css/admin.css" type="text/css">
-
-<title>addPurchaseView.jsp</title>
-
-<script type="text/javascript" src="../javascript/calendar.js">
-</script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<!-- jQueryCalendar -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+
+	<!-- Bootstrap Dropdown Hover CSS -->
+<link href="/css/animate.min.css" rel="stylesheet">
+<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+    <!-- Bootstrap Dropdown Hover JS -->
+<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+   
+   
+   <!-- jQuery UI toolTip 사용 CSS-->
+  <!-- jQuery UI toolTip 사용 JS-->
+	
+	<!--  ///////////////////////// CSS ////////////////////////// -->
+	<style>
+	  body {
+            padding-top : 50px;
+        }
+    </style>
+    
+
+
 <script type="text/javascript">
 
 function fncAddPurchase() {
-	$('form').attr("method", "POST").attr("action", "/purchase/addPurchase").submit();
+	$('form').attr("method", "POST").attr("action", "/purchase/addPurchase?prodNo=${product.prodNo}&buyerId=${user.userId}").submit();
 }
 
 $(function(){
-	$('img[src="../images/ct_icon_date.gif"]').on("click", function(){
-		show_calendar('document.addPurchase.divyDate', document.addPurchase.divyDate.value)
+	$('#divyDate').datepicker({
+		dateFormat: 'yy-mm-dd'
 	})
-	
-	$('td.ct_btn01:contains("취소")').on("click", function(){
-		history.go(-1);
-	})
-	
-	$('td.ct_btn01:contains("구매")').on("click", function(){
-		fncAddPurchase();
-	})
+})
+
+$(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$("#reset").on("click" , function() {
+				$("form")[0].reset();
+			});
+			
+			$("#addPurchase").on("click" , function() {
+				fncAddPurchase();
+			});
+});
+		
+$(function(){
 	
 	$('input[type="checkbox"][name="couponPrice"]').on("click", function(){
 		console.log($('input[type="checkbox"][name="couponPrice"]').is(":checked"))
@@ -53,6 +71,8 @@ $(function(){
 			$('#originalPrice').html('${product.price}<br><hr>')
 		}
 	})
+	
+	
 })
 
 
@@ -62,212 +82,119 @@ $(function(){
 
 <body>
 
-<form name="addPurchase">
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolbar.jsp" />
+   	<!-- ToolBar End /////////////////////////////////////-->
+   	
+	<!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
+		<form  name="addPurchase" class="form-horizontal">
+		<div class="page-header text-info">
+	       <h3>상품등록</h3>
+	    </div>
+		
+		<!-- form Start /////////////////////////////////////-->
 
-<table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif" width="15" height="37">
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">상품상세조회</td>
-					<td width="20%" align="right">&nbsp;</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
-
-<input type="hidden" name="prodNo" value="${product.prodNo}<%--<%= product.getProdNo() --%>" />
-
-<table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="300" class="ct_write">
-			상품번호 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01" width="299">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="105">${product.prodNo}<%--<%= product.getProdNo() --%></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			상품명 <img src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.prodName}<%--<%=product.getProdName()--%></td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			상품상세정보 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.prodDetail}<%--<%=product.getProdDetail() --%></td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">제조일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.manuDate}<%--<%= product.getManuDate() --%></td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">가격</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><span id="originalPrice">${product.price}<br><hr></span><%--<%= product.getPrice() --%>
-		<c:if test="${user.coupon.discountCoupon10=='1'}">
-			10% 할인쿠폰을 적용합니까?<input type="checkbox" name="couponPrice"/> 
-			<fmt:parseNumber var="price" value="${product.price*0.9}" integerOnly="true" />
-		<br>쿠폰 적용시 가격: ${price}
-		</c:if>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">등록일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.manuDate}<%--<%= product.getManuDate() --%></td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			구매자아이디 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${user.userId}<%--<%= user.getUserId() --%></td>
-		<input type="hidden" name="buyerId" value="${user.userId}<%--<%= user.getUserId() %>--%>" />
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매방법</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<select 	name="paymentOption"		class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20">
+		  <div class="form-group">
+		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품번호</label>
+		    <div class="col-sm-4">
+		      <u id="prodName" name="prodNo">${product.prodNo}</u>
+		    </div>
+		  </div>
+		 <div class="form-group">
+		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
+		    <div class="col-sm-4">
+		      <u id="prodName" name="prodName">${product.prodName}</u>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="prodDetail" class="col-sm-offset-1 col-sm-3 control-label">상품상세정보</label>
+		    <div class="col-sm-4">
+		      <u id="prodDetail" name="prodDetail" >${product.prodDetail}</u>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">제조일자</label>
+		    <div class="col-sm-4">
+		      <u id="manuDate" name="manuDate">${product.manuDate}</u>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
+		    <div class="col-sm-4">
+		      <u id="originalPrice" name="price">${product.price}		
+		     	 <c:if test="${user.coupon.discountCoupon10=='1'}">
+					10% 할인쿠폰을 적용합니까?<input type="checkbox" name="couponPrice"/> 
+				<fmt:parseNumber var="price" value="${product.price*0.9}" integerOnly="true" />
+				<br>쿠폰 적용시 가격: ${price}
+				</c:if>
+			  </u>
+		    </div>
+		    <span id="helpBlock" class="help-block">
+		      	원&nbsp;&nbsp;&nbsp;<small class="text-primary">상품의 원래 가격입니다.</small>
+		    </span>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="paymentOption" class="col-sm-offset-1 col-sm-3 control-label">구매방법</label>
+		    <div class="col-sm-4">
+		      <select id="paymentOption" name="paymentOption" class="form-control">
 				<option value="1" selected="selected">현금구매</option>
 				<option value="2">신용구매</option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자이름</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input type="text" name="receiverName" 	class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20" value="${user.userName}<%--<%= user.getUserName() %>--%>" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자연락처</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="receiverPhone" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20" value="${user.phone}<%--<%= user.getPhone() %>--%>" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자주소</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="divyAddr" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20" 	value="${user.addr}<%--<%= user.getAddr() %>--%>" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매요청사항</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input		type="text" name="divyRequest" 	class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">배송희망일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td width="200" class="ct_write01">
-			<input 	type="text" readonly="readonly" name="divyDate" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20"/>
-			<img 	src="../images/ct_icon_date.gif" width="15" height="15"	/>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-</table>
+			  </select>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">수령자이름</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" name="receiverName" value="${user.userName}" />
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="receiverPhone" class="col-sm-offset-1 col-sm-3 control-label">연락처</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" name="receiverPhone" value="${user.phone}" />
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="divyAddr" class="col-sm-offset-1 col-sm-3 control-label">수령주소</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" name="divyAddr" value="${user.addr}" />
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="divyRequest" class="col-sm-offset-1 col-sm-3 control-label">구매요청사항</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" name="divyRequest" />
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="divyDate" class="col-sm-offset-1 col-sm-3 control-label">배송희망일자</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="divyDate" name="divyDate" placeholder="ex) 2019-05-22">
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <div class="col-sm-offset-4  col-sm-4 text-center">
+		      <button id="addPurchase" type="button" class="btn btn-primary"  >구매</button>
+		      <button id="reset" type="button" class="btn btn-primary"  >취소</button>
+		    </div>
+		  </div>
+		  
+		</form>
+		<!-- form end /////////////////////////////////////-->
+	</div>
+	<!--  화면구성 div end /////////////////////////////////////-->
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="center">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						구매
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-					<td width="30"></td>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						취소
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
 </form>
 
 </body>

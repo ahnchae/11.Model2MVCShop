@@ -37,10 +37,10 @@
 	                         <span class="caret"></span>
 	                     </a>
 	                     <ul class="dropdown-menu">
-	                         <li><a href="#">개인정보조회</a></li>
+	                         <li><a href="/user/getUser">개인정보조회</a></li>
 	                         
 	                         <c:if test="${sessionScope.user.role == 'admin'}">
-	                         	<li><a href="#">회원정보조회</a></li>
+	                         	<li><a href="/user/listUser">회원정보조회</a></li>
 	                         </c:if>
 	                         
 	                         <li class="divider"></li>
@@ -74,7 +74,7 @@
 	                         <li><a href="/product/listProduct?menu=search">상 품 검 색</a></li>
 	                         
 	                         <c:if test="${sessionScope.user.role == 'user'}">
-	                           <li><a href="#">구매이력조회</a></li>
+	                           <li><a href="/purchase/listPurchase">구매이력조회</a></li>
 	                         </c:if>
 	                         
 	                         <li><a href="#">최근본상품</a></li>

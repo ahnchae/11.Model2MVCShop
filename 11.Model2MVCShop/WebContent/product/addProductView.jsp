@@ -76,7 +76,7 @@ function resetData(){
 
 
 	$(function(){
-		 $( "#manuDate" ).datepicker();
+		 $( "#manuDate" ).datepicker({dateFormat: 'yy-mm-dd'});
 	})
 	
 			//============= "가입"  Event 연결 =============

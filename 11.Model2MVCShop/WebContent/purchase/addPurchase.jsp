@@ -14,6 +14,29 @@
 <head>
 	<meta charset="EUC-KR">
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<!-- 참조 : http://getbootstrap.com/css/   참조 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
+	<!-- Bootstrap Dropdown Hover CSS -->
+   <link href="/css/animate.min.css" rel="stylesheet">
+   <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+   
+    <!-- Bootstrap Dropdown Hover JS -->
+   <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+	
+	<!--  ///////////////////////// CSS ////////////////////////// -->
+	<style>
+ 		body {
+            padding-top : 50px;
+        }
+     </style>
+    
 	<script type="text/javascript">	
 		$(function(){
 			$('td.ct_btn01:contains("확인")').on("click", function(){
@@ -26,90 +49,114 @@
 </head>
 
 <body>
-
+	<!-- ToolBar Start /////////////////////////////////////-->
+	<jsp:include page="/layout/toolbar.jsp" />
+   	<!-- ToolBar End /////////////////////////////////////-->
+   		<!--  화면구성 div Start /////////////////////////////////////-->
+	<div class="container">
 <form name="updatePurchase" action="/listProduct?menu=search" method="post">
-
-다음과 같이 구매가 되었습니다.
-
-<table border=1>
-	<tr>
-		<td>물품번호</td>
-		<td>${purchase.purchaseProd.prodNo}<%--<%= purchase.getPurchaseProd().getProdNo() --%></td>
+		<div class="page-header text-info">
+	       <h3>구매완료</h3>
+	       <h5>다음과 같이 구매가 되었습니다.</h5>
+	    </div>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>물품번호</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.purchaseProd.prodNo}</div>
+		</div>
 		
-		<td></td>
-	</tr>
-	<tr>
-		<td>구매자아이디</td>
-		<td>${purchase.buyer.userId}<%--<%= purchase.getBuyer().getUserId() --%></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>구매방법</td>
-		<td>
+		<hr/>
 		
-		<c:if test="${param.paymentOption=='1'}">
-		현금결제
-		</c:if>
-		<c:if test="${param.paymentOption=='2'}">
-		신용결제
-		</c:if>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>이 름</strong></div>
+			<div class="col-xs-8 col-md-4">${user.userName}</div>
+		</div>
 		
-		</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>상품 가격</td>
-		<td>${purchase.purchaseProd.price}</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>구매 가격</td>
-		<td>${purchase.soldPrice}</td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>구매자이름</td>
-		<td>${purchase.buyer.userName}<%--<%= purchase.getBuyer().getUserName() --%></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>구매자연락처</td>
-		<td>${purchase.receiverPhone}<%--<%= purchase.getBuyer().getPhone() --%></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>구매자주소</td>
-		<td>${purchase.divyAddr}<%--<%= purchase.getBuyer().getAddr() --%></td>
-		<td></td>
-	</tr>
-		<tr>
-		<td>구매요청사항</td>
-		<td>${purchase.divyRequest}<%--<%= purchase.getDivyRequest()--%></td>
-		<td></td>
-	</tr>
-	<tr>
-		<td>배송희망일자</td>
-		<td>${purchase.divyDate}<%--<%=purchase.getDivyDate()--%></td>
-		<td></td>
-	</tr>
-	
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>구매자아이디</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.buyer.userId}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>구매방법</strong></div>
+			<div class="col-xs-8 col-md-4">
+			<c:if test="${param.paymentOption=='1'}">
+			현금결제
+			</c:if>
+			<c:if test="${param.paymentOption=='2'}">
+			신용결제
+			</c:if></div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>상품 가격</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.purchaseProd.price}</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>구매 가격</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.soldPrice}</div>
+		</div>
+		
+		<hr/>
 
-</table>
-	<table border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="30"></td>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						확인
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif"width="14" height="23"/>
-					</td>
-				</tr>
-	</table>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>수령인 이름</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.buyer.userName}</div>
+		</div>
+		
+		<hr/>
+
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>연락처</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.receiverPhone}</div>
+		</div>
+		
+		<hr/>
+
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>구매자주소</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.divyAddr}</div>
+		</div>
+		
+		<hr/>
+
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>구매요청사항</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.divyRequest}</div>
+		</div>
+		
+		<hr/>
+
+				<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>배송희망일자</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.divyDate}</div>
+		</div>
+		
+		<hr/>
+
+		<div class="form-group">
+		    <div class="col-sm-offset-4  col-sm-4 text-center">
+				<button id="ok" type="button" class="btn btn-primary"  >확인</button>
+		    </div>
+		</div>
+
+	<script type="text/javascript">	
+		$(function(){
+			$('#ok').on("click", function(){
+				location="/product/listProduct?menu=search";
+			})
+		});
+	</script>
+
 </form>
-
+</div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -42,7 +42,11 @@ body {
 	padding-top: 50px;
 }
 </style>
-
+                <style>
+                    .thumbnail{
+                       // min-width: 240px;
+                    }
+                </style>
 <script type="text/javascript">
 	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
 	function fncGetUserList(currentPage) {
@@ -55,9 +59,15 @@ body {
 	$(function() {
 		
 ////////////////검색버튼 눌렀을 때 start...
-		$('button.btn-block:contains("검색"),input[value="prodNo"],input[value="priceASC"],input[value="priceDESC"]').on(						"click",
+		$('button.btn-block:contains("검색"),input[value="prodNo"],input[value="priceASC"],input[value="priceDESC"],input[value="recently"]').on(						"click",
 						function() {
 							$("#currentPage").val('1');
+							if($("#searchKeyword1").val()==''){
+								$("#searchKeyword1").val(0)
+							}
+							if($("#searchKeyword2").val()==''){
+								$("#searchKeyword2").val(0)
+							}
 							var uri = "/product/listProduct?menu=${param.menu}";
 							$("form").attr("method", "POST")
 									.attr("action", uri).submit();
@@ -192,7 +202,7 @@ body {
 /////////autoComplete end...
 
 ////////param.menu==manage 일 때 배송하기 start...
-		$('#deliver').on(
+		$('span[id^=deliver]').on(
 				"click",
 				function() {
 					var prodNo = $($(this).next('span').html()).val();
@@ -219,6 +229,7 @@ body {
 	<jsp:include page="/layout/toolbar.jsp" />
 	<!-- ToolBar End /////////////////////////////////////-->
 
+<!-- div container start... -->
 	<div class="container">
 
 		<div class="page-header text-info">
@@ -239,13 +250,15 @@ body {
 						<div class="panel-heading" style="height: 50px;">
 							<h5 align="justify">정렬기준</h5>
 						</div>
-						<div class="panel-body" style="height: 90px; padding: 10">
+						<div class="panel-body" style="height: 120px; padding: 10">
 							<input type=radio name="sorting" value="prodNo"
 								${empty search.sorting || (!empty search.sorting && search.sorting=='prodNo') ? "checked" : ""}>상품번호<br>
 							<input type=radio name="sorting" value="priceASC"
 								${!empty search.sorting && search.sorting=='priceASC' ? "checked" : ""}>가격낮은순<br>
 							<input type=radio name="sorting" value="priceDESC"
 								${!empty search.sorting && search.sorting=='priceDESC' ? "checked" : ""}>가격높은순<br>
+							<input type=radio name="sorting" value="recently"
+								${!empty search.sorting && search.sorting=='recently' ? "checked" : ""}>최신등록순<br>
 						</div>
 					</div>
 
@@ -255,18 +268,18 @@ body {
 						</div>
 						<div class="panel-body">
 							<input style="width: 160px" class="form-control inline"
-								type="text" name="searchKeyword1"
-								value="${search.searchKeyword1!=0 ? search.searchKeyword1 : ''}">원
+								type="text" id="searchKeyword1" name="searchKeyword1"
+								value="${search.searchKeyword1!=0 ? search.searchKeyword1 : '0'}">원
 							~ <input style="width: 160px" class="form-control" type="text"
-								name="searchKeyword2"
-								value="${search.searchKeyword2!=0 ? search.searchKeyword2 : ''}">원
+								name="searchKeyword2" id="searchKeyword2"
+								value="${search.searchKeyword2!=0 ? search.searchKeyword2 : '0'}">원
 						</div>
 					</div>
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								<i class="glyphicon glyphicon-remove"></i>검색조건
+								<i class="glyphicon glyphicon-asterisk"></i>검색조건
 							</h3>
 						</div>
 						<div class="panel-body">
@@ -292,94 +305,73 @@ body {
 						</div>
 					</div>
 					
-					<button type="button" class="btn btn-primary btn-block">검색</button>
+					<button type="button" class="btn btn-warning btn-block">검색</button>
 				</div>
 				<input type="hidden" id="currentPage" name="currentPage" value="" />
 			</form>
 
 			<div class="col-md-9">
-
-				<table class="table table-hover table-striped">
-
-					<thead>
-						<tr>
-							<th align="center">No</th>
-							<th align="left">상품명</th>
-							<th align="left">가격</th>
-							<th align="left">상품 번호</th>
-							<th align="left">현재 상태</th>
-							<th align="left">상품 이미지</th>
-						</tr>
-					</thead>
-
-					<tbody>
-
-						<c:set var="i" value="0" />
-						<c:forEach var="product" items="${list}">
-							<c:set var="i" value="${ i+1 }" />
-							<tr>
-								<td align="center">${ i }</td>
-								<td align="left" title="Click : 상품 상세정보">${product.prodName}</td>
-								<td align="left">${product.price}</td>
-								<td align="left">${product.prodNo}</td>
-								<td align="left"><c:choose>
+			<div class="panel panel-default">
+                        <div class="panel-heading">
+                            조회 결과
+                        </div>
+                        <!--panel-body start--->
+                        <div class="panel-body">
+				<c:set var="i" value="0" />
+				<c:forEach var="product" items="${list}">
+					    
+						
+                                <div class=" col-md-4">
+									<!--thumbnail start--->
+                                  <div class="thumbnail">
+										<c:if test="${empty product.fileNames && !empty product.fileName}">
+											<p><img src="../images/uploadFiles/${product.fileName}" width="200" height="200" /></p>
+										 </c:if> 
+										 <c:if test="${!empty product.fileNames}">
+											<p><img src="../images/uploadFiles/${product.fileNames[0]}" width="200" height="200" /></p>
+										 </c:if> 
+										 <c:if test="${empty product.fileName}">
+											<p><img src="http://placehold.it/100x100" /></p>
+										 </c:if>
+                                    <div class="caption">
+                                      <h3>${product.prodName}</h3>
+                                      <p>상품번호: ${product.prodNo}<br>가격:${product.price}<br>상태: <c:choose>
 										<c:when test="${product.proTranCode=='1  '}">
-					판매중
-					</c:when>
-										<c:when
-											test="${product.proTranCode=='2  '&& user.role=='admin'}">
-					구매 완료
-						<c:if test="${param.menu=='manage'}">
-												<span id="deliver">배송하기</span>
-												<span><input type="hidden" value=${product.prodNo}></span>
+										판매중
+										</c:when>
+										<c:when	test="${product.proTranCode=='2  '&& user.role=='admin'}">
+										구매 완료
+											<c:if test="${param.menu=='manage'}">
+												<span id="deliver${product.prodNo}">[배송하기]</span>
+												<span><input type="hidden" id="prodNo" value='${product.prodNo}'></span>
 											</c:if>
 										</c:when>
-										<c:when
-											test="${product.proTranCode=='3  '&& user.role=='admin'}">
-					배송중
-					</c:when>
-										<c:when
-											test="${product.proTranCode=='4  '&& user.role=='admin'}">
-					배송 완료
-					</c:when>
+										<c:when test="${product.proTranCode=='3  '&& user.role=='admin'}">
+										배송중
+										</c:when>
+										<c:when test="${product.proTranCode=='4  '&& user.role=='admin'}">
+										배송 완료
+										</c:when>
 										<c:otherwise>
-					재고 없음
-					</c:otherwise>
-									</c:choose></td>
-								<td align="left"><c:if
-										test="${empty product.fileNames && !empty product.fileName}">
-										<p>
-											<img src="../images/uploadFiles/${product.fileName}"
-												width="100" height="100" />
-										</p>
-										<%--${product.fileName} --%>
-									</c:if> <c:if test="${!empty product.fileNames}">
-										<p>
-											<img src="../images/uploadFiles/${product.fileNames[0]}"
-												width="100" height="100" />
-										</p>
-										<%--${product.fileName} --%>
-									</c:if> <c:if test="${empty product.fileName}">
-										<p>
-											<img src="http://placehold.it/100x100" />
-										</p>
-									</c:if></td>
-							</tr>
-						</c:forEach>
-
-					</tbody>
-
-				</table>
-
+										재고 없음
+										</c:otherwise>
+									</c:choose></p>
+                                      <p><a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}" class="btn btn-warning btn-block" role="button">상세페이지</a></p>
+                                    </div>
+                                  </div>
+								  <!--thumbnail end--->
+                                </div>
+				</c:forEach>
+						</div>
+						<!--panel-body end--->
+					</div>
 			</div>
 		</div>
-	</div>
 
 	<!-- PageNavigation Start... -->
 	<jsp:include page="../common/pageNavigator_new.jsp" />
 	<!-- PageNavigation End... -->
 
-	</form>
 
 	</div>
 </body>

@@ -154,6 +154,8 @@ public class ProductController {
 		}
 		if(search.getSearchKeyword1()!=0 || search.getSearchKeyword2()!=0) {
 			search.setPriceSearch(true);
+		}else {
+			search.setPriceSearch(false);
 		}
 		search.setPageSize(pageSize);
 		

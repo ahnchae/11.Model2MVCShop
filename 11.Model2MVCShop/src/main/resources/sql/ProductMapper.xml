@@ -72,6 +72,9 @@
 							<if test="sorting=='prodNo'">
 								ORDER BY p.prod_no
 							</if>
+							<if test="sorting == 'recently'">
+								ORDER BY p.reg_date DESC
+							</if>
 						</if>
 						<if test="sorting == null">
 							ORDER BY p.prod_no
@@ -175,6 +178,9 @@
 							<if test="sorting=='prodNo'">
 								ORDER BY p.prod_no
 							</if>
+							<if test="sorting == 'recently'">
+							ORDER BY p.reg_date DESC
+							</if>
 						</if>
 						<if test="sorting == null">
 							ORDER BY p.prod_no
@@ -243,10 +249,11 @@
 							<if test="sorting=='prodNo'">
 								ORDER BY p.prod_no
 							</if>
+							<if test="sorting == 'recently'">
+								ORDER BY p.reg_date DESC
+							</if>
 						</if>
-						<if test="sorting == null">
-							ORDER BY p.prod_no
-						</if>
+
 						) countTable
 	</select>
 

@@ -57,7 +57,7 @@
 		                     </a>
 		                     <ul class="dropdown-menu">
 		                         <li><a href="/product/addProduct">판매상품등록</a></li>
-		                         <li><a href="#">판매상품관리</a></li>
+		                         <li><a href="/product/listProduct?menu=manage"">판매상품관리</a></li>
 		                         <li class="divider"></li>
 		                         <li><a href="#">etc..</a></li>
 		                     </ul>

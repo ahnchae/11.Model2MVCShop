@@ -6,7 +6,6 @@
 <head>
 
 <title>열어본 상품 보기</title>
-
 </head>
 <body>
 	당신이 열어본 상품을 알고 있다
@@ -29,8 +28,8 @@
 			for (int i = 0; i < h.length; i++) {
 				if (!h[i].equals("null")) {
 %>
-<a href="/getProduct.do?prodNo=<%=h[i]%>&menu=search"
-	target="rightFrame"><%=h[i]%></a>
+<a href="/product/getProduct?prodNo=<%=h[i]%>&menu=search"
+	><%=h[i]%></a>
 <br>
 <%
 				}

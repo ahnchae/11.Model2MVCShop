@@ -9,7 +9,6 @@
  --%>
 <html>
 <head>
-<title>상품정보수정</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -37,8 +36,11 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	
-</script>
+			<style>
+ 		body {
+            padding-top : 50px;
+        }
+     </style>
 
 <script type="text/javascript">
 

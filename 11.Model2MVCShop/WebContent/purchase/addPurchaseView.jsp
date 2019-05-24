@@ -67,8 +67,10 @@ $(function(){
 		console.log($('#originalPrice'))
 		if($('input[type="checkbox"][name="couponPrice"]').is(":checked")){
 			$('#originalPrice').empty()
+			$('small.text-primary').text("할인된 가격입니다.")
 		}else{
 			$('#originalPrice').html('${product.price}<br><hr>')
+			$('small.text-primary').text("상품의 원래 가격입니다.")
 		}
 	})
 	
@@ -90,7 +92,7 @@ $(function(){
 	<div class="container">
 		<form  name="addPurchase" class="form-horizontal">
 		<div class="page-header text-info">
-	       <h3>상품등록</h3>
+	       <h3>구매하기</h3>
 	    </div>
 		
 		<!-- form Start /////////////////////////////////////-->
@@ -125,13 +127,13 @@ $(function(){
 		  <div class="form-group">
 		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
 		    <div class="col-sm-4">
-		      <u id="originalPrice" name="price">${product.price}		
+		      <u id="originalPrice" name="price">${product.price}<br><hr></u>		
 		     	 <c:if test="${user.coupon.discountCoupon10=='1'}">
 					10% 할인쿠폰을 적용합니까?<input type="checkbox" name="couponPrice"/> 
 				<fmt:parseNumber var="price" value="${product.price*0.9}" integerOnly="true" />
 				<br>쿠폰 적용시 가격: ${price}
 				</c:if>
-			  </u>
+			  
 		    </div>
 		    <span id="helpBlock" class="help-block">
 		      	원&nbsp;&nbsp;&nbsp;<small class="text-primary">상품의 원래 가격입니다.</small>
@@ -195,7 +197,6 @@ $(function(){
 	</div>
 	<!--  화면구성 div end /////////////////////////////////////-->
 
-</form>
 
 </body>
 </html>

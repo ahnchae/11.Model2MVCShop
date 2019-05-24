@@ -82,7 +82,7 @@
 					//alert(status);
 					//alert("JSONData : \n"+JSONData);
 				
-					var displayValue= "<td></td><td><h5>"+"주문일: "+JSONData.orderDate+"<br>"
+					var displayValue= "<td></td><td colspan='7'><h5>"+"주문일: "+JSONData.orderDate+"<br>"
 											+"상품명: "+JSONData.purchaseProd.prodName+"<br>"
 											+"구매자: "+JSONData.buyer.userId+"<br>";
 							   displayValue += "배송 받는 분: ";
@@ -117,8 +117,9 @@
 	
 		
 		
-		$('.ct_list_pop td:nth-child(11):contains("물건도착")').on("click", function(){
-			var tranNo = $($(this).next('td').html()).val();
+		$('u').on("click", function(){
+			var tranNo = $($('tbody tr td:nth-child(3) input')[$('u').index(this)]).val();
+			console.log(tranNo);
 			location="/purchase/updateTranCode?tranNo="+tranNo+"&tranCode=4";
 		})
 	})
@@ -147,7 +148,7 @@
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left" >상품명</th>
+            <th align="left" >상품명</th><th></th><th></th>
             <th align="left">주문일자</th>
             <th align="left">요청사항</th>
             <th align="left">배송현황</th>
@@ -183,7 +184,7 @@
 				상태 입니다.
 			  </td>
 			  <td align="left"><c:if test="${purchase.tranCode=='3  '}">
-		물건도착
+		<u>물건도착</u>
 		</c:if>
 		<c:if test="${purchase.tranCode=='4  '}">
 		배송완료

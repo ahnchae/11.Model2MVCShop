@@ -22,7 +22,7 @@
 				},
 				success : function(JSONData, status){
 					//alert(status);
-					alert("JSONData : \n"+JSONData);
+					//alert("JSONData : \n"+JSONData);
 					//alert( "JSON.stringify(JSONData) : \n"+JSON.stringify(JSONData) );
 					//alert( JSONData != null );
 					if(JSONData.message=="ok"){
@@ -45,6 +45,9 @@
 <br>
 <c:if test="${user.coupon!=null && user.coupon.discountCoupon10=='1' }">
 <h5>쿠폰이 발급되었습니다.<br> 중복 발급되지 않습니다.<br><br></h5>
+</c:if>
+<c:if test="${user.coupon!=null && user.coupon.discountCoupon10!='1' }">
+<h5>이미 쿠폰을 사용하셨습니다.<br> 중복 발급되지 않습니다.<br><br></h5>
 </c:if>
 <c:if test="${user.coupon==null}">
 <h5>등록된 쿠폰이 없습니다.<br> 쿠폰 번호를 입력해주세요.<br><br></h5>

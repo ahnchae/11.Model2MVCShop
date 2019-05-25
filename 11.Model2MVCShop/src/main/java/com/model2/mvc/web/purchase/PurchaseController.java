@@ -62,11 +62,12 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping(value="/addPurchase", method=RequestMethod.POST)
-	public ModelAndView addPurchase(@ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") int prodNo, @RequestParam("buyerId") String userId, @RequestParam(value="couponPrice", required=false) boolean checked) throws Exception{
+	public ModelAndView addPurchase(HttpSession session, @ModelAttribute("purchase") Purchase purchase, @RequestParam("prodNo") int prodNo, @RequestParam("buyerId") String userId, @RequestParam(value="couponPrice", required=false) boolean checked) throws Exception{
 		System.out.println("/purchase/addPurchase : POST");
 		purchase.setPurchaseProd(productService.getProduct(prodNo));
 		if(checked) {
 			purchaseService.discountPurchase(purchase, 0.9, userId, "discountCoupon10");	
+			session.setAttribute("user", userService.getUser(((User)(session.getAttribute("user"))).getUserId()));
 		}
 		purchase.setBuyer(userService.getUser(userId));
 		purchase.setTranCode("2  ");

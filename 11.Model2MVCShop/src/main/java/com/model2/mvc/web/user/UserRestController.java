@@ -51,12 +51,15 @@ public class UserRestController {
 		User user = (User)session.getAttribute("user");
 		System.out.println("addCoupon user : "+ user);
 		userService.addCoupon(couponId, user);
-			
-		session.setAttribute("user", userService.getUser(((User)session.getAttribute("user")).getUserId()));
+		
+		User newCouponUser = userService.getUser(((User)session.getAttribute("user")).getUserId());
+		session.setAttribute("user", newCouponUser);
 		
 		Map map = new HashMap();
-		if(userService.getUser(((User)session.getAttribute("user")).getUserId()).getCoupon()!=null) {
+		if(newCouponUser.getCoupon().getDiscountCoupon10().equals("1")) {
 			map.put("message", "ok");
+		}else if(newCouponUser.getCoupon().getDiscountCoupon10().equals("0")) {
+			map.put("message", "already");
 		}else {
 			map.put("message", "no good");
 		}

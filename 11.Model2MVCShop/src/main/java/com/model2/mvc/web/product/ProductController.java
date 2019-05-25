@@ -66,7 +66,7 @@ public class ProductController {
 		System.out.println("/product/addProduct : POST");
 		
 		//업로드 파일 저장소
-		String path = "C:\\Users\\USER\\git\\11.Model2MVCShop\\11.Model2MVCShop\\WebContent\\images\\uploadFiles";
+		String path = "C:\\Users\\ahnch\\git\\11.Model2MVCShop\\11.Model2MVCShop\\WebContent\\images\\uploadFiles";
 		
 		List<MultipartFile> fileList = multipartHttpServletRequest.getFiles("fileNameForReal");
 		String finalFileName = "";
@@ -128,12 +128,24 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/updateProduct", method=RequestMethod.POST)
-	public String updateProduct(@ModelAttribute("product") Product product) throws Exception{
+	public String updateProduct(@ModelAttribute("product") Product product, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
 		System.out.println("/product/updateProduct : POST");
+		String path = "C:\\Users\\ahnch\\git\\11.Model2MVCShop\\11.Model2MVCShop\\WebContent\\images\\uploadFiles";
 		
+		List<MultipartFile> fileList = multipartHttpServletRequest.getFiles("fileNameForReal");
+		String finalFileName = "";
+        for (MultipartFile multiFile : fileList) {
+            String originalFileName = multiFile.getOriginalFilename(); // 원본 파일 명
+            finalFileName += originalFileName+",";
+			File serverFile = new File(path + File.separator + originalFileName);
+			multiFile.transferTo(serverFile);
+        }
+		finalFileName = finalFileName.substring(0, finalFileName.lastIndexOf(","));
+		product.setFileName(finalFileName);
+
 		productService.updateProduct(product);
 		
-		return "forward:/product/getProduct";
+		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
 	}
 	
 	@RequestMapping("/deleteProduct")

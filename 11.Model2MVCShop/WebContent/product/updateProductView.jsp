@@ -70,7 +70,7 @@ function fncAddProduct(num){
 	if(num=='1'){
 		$('form').attr("action", "/product/deleteProduct").attr("enctype", "multipart/form-data").submit();
 	}else{	
-		$('form').attr("action", "/product/updateProduct").attr("enctype", "multipart/form-data").submit();
+		$('form').attr("method", "POST").attr("action", "/product/updateProduct").attr("enctype", "multipart/form-data").submit();
 	}
 }
 
@@ -86,13 +86,13 @@ $(function(){
 })
 
 $(function(){
-	$('updateButton').on("click", function(){
+	$('#updateButton').on("click", function(){
 		fncAddProduct();
 	})
 })
 
 $(function(){
-	$('td.ct_btn01:contains("취소")').on("click", function(){
+	$('#reset').on("click", function(){
 		history.go(-1);
 	})
 })
@@ -154,14 +154,14 @@ $(function(){
 		  </div>
 		  
 		  <div class="form-group">
-		  	<div class="col-sm-offset-4  col-sm-4 text-left">
-		      <button id="deleteButton" type="button" class="btn btn-primary"  >상품 삭제</button>
-		    </div>
-		    <div class="col-sm-offset-4  col-sm-4 text-center">
+		    <span class="col-sm-offset-4  col-sm-4 text-center">
+		      <button id="deleteButton" type="button" class="btn btn-danger"  >상품 삭제</button>
 		      <button id="updateButton" type="button" class="btn btn-primary"  >수 &nbsp;정</button>
 		      <button id="reset" type="button" class="btn btn-primary"  >취 &nbsp;소</button>
-		    </div>
+		    </span>
 		  </div>
+		  
+		  <input type="hidden" name="prodNo" value="${product.prodNo}"/>
 		</form>
 </div>
 </body>

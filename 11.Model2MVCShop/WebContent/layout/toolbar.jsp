@@ -144,8 +144,12 @@
 </c:if>
 <c:if test="${user.coupon==null}">
 <h5>등록된 쿠폰이 없습니다.<br> 쿠폰 번호를 입력해주세요.<br><br></h5>
-</c:if>
 <input type="text" name="couponId">
+</c:if>
+<c:if test="${user.coupon!=null && user.coupon.discountCoupon10!='1' }">
+<h5>이미 쿠폰을 사용하셨습니다.<br> 중복 발급되지 않습니다.<br><br></h5>
+</c:if>
+
 
 </p>
 </div>
@@ -252,14 +256,17 @@
 								},
 								success : function(JSONData, status){
 									//alert(status);
-									alert("JSONData : \n"+JSONData);
+									//alert("JSONData : \n"+JSONData.message);
 									//alert( "JSON.stringify(JSONData) : \n"+JSON.stringify(JSONData) );
 									//alert( JSONData != null );
 									if(JSONData.message=="ok"){
 										//alert("사용 가능한 아이디입니다.")
 										$('h5').html("쿠폰이 발급되었습니다.<br> 중복 발급되지 않습니다.<br><br>");
+										$('input').remove()
 									}else if(JSONData.message=="no good"){
 										$('h5').html("알맞지 않은 쿠폰 번호입니다.<br> 다시 입력해주세요.<br><br>");
+									}else if(JSONData.message=="already"){
+										$('h5').html("다시 쿠폰을 등록하실 수 없습니다.<br> 쿠폰이 업데이트되면 알려드릴게요!<br><br>");
 									}
 								},
 								error : function(jqXHR, textStatus, errorThrown){

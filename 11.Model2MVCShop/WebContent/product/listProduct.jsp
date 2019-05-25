@@ -328,10 +328,10 @@ body {
 											<p><img src="../images/uploadFiles/${product.fileName}" width="200" height="200" /></p>
 										 </c:if> 
 										 <c:if test="${!empty product.fileNames}">
-											<p><img src="../images/uploadFiles/${product.fileNames[0]}" width="200" height="200" /></p>
+											<p><img src="../images/uploadFiles/${product.fileNames[0]}" onerror="this.src='http://placehold.it/200x200'" width="200" height="200" /></p>
 										 </c:if> 
 										 <c:if test="${empty product.fileName}">
-											<p><img src="http://placehold.it/100x100" /></p>
+											<p><img src="http://placehold.it/200x200" /></p>
 										 </c:if>
                                     <div class="caption">
                                       <h3>${product.prodName}</h3>
@@ -356,7 +356,16 @@ body {
 										재고 없음
 										</c:otherwise>
 									</c:choose></p>
-                                      <p><a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}" class="btn btn-warning btn-block" role="button">상세페이지</a></p>
+                                      <p>
+                                      <a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}" class="btn btn-warning btn-block" role="button">
+                                      <c:if test="${param.menu=='manage' && product.proTranCode=='1  '}">
+                                      	<u>상품 정보 수정</u>
+                                      </c:if>
+                                      <c:if test="${param.menu!='manage' || product.proTranCode!='1  '}">
+                                     	 상세페이지
+                                     </c:if>
+                                      </a>
+									 </p>
                                     </div>
                                   </div>
 								  <!--thumbnail end--->

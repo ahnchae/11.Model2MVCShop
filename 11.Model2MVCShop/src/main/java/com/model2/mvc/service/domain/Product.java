@@ -20,7 +20,7 @@ public class Product {
 	}
 
 	public String[] getFileNames() {
-		if(fileName.contains(",")) {
+		if(fileName!=null && fileName.contains(",")) {
 			fileNames = fileName.split(",");
 		}
 		return fileNames;

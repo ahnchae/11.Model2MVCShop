@@ -82,10 +82,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 		
 		//쿠폰 사용하기
 		User user = userService.getUser(userId);
-		System.out.println("~~~~~~~~~~~~~~~~~~쿠폰사용하기~~~~~~~~~~~~~~~~");
 		switch (couponType) {
 		case "discountCoupon10":
-			System.out.println("~~~~~~~~~~~~~~~~~~여기들어옴~~~~~~~~~~~~~~~~");
 			userService.addCoupon("deleteDiscountCoupon10", user);
 			break;
 		}

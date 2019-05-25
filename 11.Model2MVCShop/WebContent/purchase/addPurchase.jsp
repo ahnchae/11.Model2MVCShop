@@ -96,6 +96,16 @@
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품 가격</strong></div>
 			<div class="col-xs-8 col-md-4">${purchase.purchaseProd.price}</div>
+						<span class="help-block">
+		      	 <em class="text-primary">상품 하나의 가격입니다.</em>
+		      </span>
+		</div>
+
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2"><strong>구매수량</strong></div>
+			<div class="col-xs-8 col-md-4">${purchase.amount}</div>
 		</div>
 		
 		<hr/>

@@ -14,10 +14,33 @@ public class Product {
 	private Date regDate;
 	private String proTranCode;	
 	private String[] fileNames;
+	private int quantity;
+	private int stock;
 	
 	public Product() {
 		// TODO Auto-generated constructor stub
 	}
+
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+
+	public int getStock() {
+		return stock;
+	}
+
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
 
 	public String[] getFileNames() {
 		if(fileName!=null && fileName.contains(",")) {

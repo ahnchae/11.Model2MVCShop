@@ -14,6 +14,8 @@
 		<result property="prodDetail" column="prod_detail" jdbcType="VARCHAR" />
 		<result property="prodName" column="prod_name" jdbcType="VARCHAR" />
 		<result property="prodNo" column="prod_no" jdbcType="INTEGER" />
+		<result property="quantity" column="quantity" jdbcType="INTEGER" />
+		<result property="stock" column="stock" jdbcType="INTEGER" />
 		<result property="regDate" column="reg_date" jdbcType="DATE" />
 		<result property="proTranCode" column="tran_status_code"
 			jdbcType="CHAR" />
@@ -22,7 +24,7 @@
 	<select id="getAutoComplete" parameterType='search' resultMap='productSelectMap'>
 	SELECT
 						p.prod_no, p.prod_name, p.prod_detail, p.manufacture_Day, p.price, p.image_file,
-						p.reg_date, t.tran_status_code
+						p.reg_date, stock, quantity, t.tran_status_code
 						FROM product p, transaction t
 						<where>
 							t.prod_no(+) = p.prod_no AND p.deleted IS NULL 
@@ -85,16 +87,16 @@
 	<insert id="insertProduct" parameterType="product">
 		INSERT
 		INTO product( prod_no , prod_name , prod_detail , manufacture_day ,
-		price, image_file, reg_date)
+		price, image_file, reg_date, stock, quantity)
 		VALUES ( seq_product_prod_no.nextval,
-		#{prodName},#{prodDetail:VARCHAR},#{manuDate:VARCHAR},#{price:NUMERIC},#{fileName:VARCHAR},SYSDATE)
+		#{prodName},#{prodDetail:VARCHAR},#{manuDate:VARCHAR},#{price:NUMERIC},#{fileName:VARCHAR},SYSDATE, #{quantity}, #{quantity})
 	</insert>
 
 	<!-- SQL : SELECT ONE -->
 	<select id="findProduct" parameterType="int" resultMap="productSelectMap">
 		SELECT
 		p.prod_no, p.prod_name, p.prod_detail, p.manufacture_Day,
-		p.price, p.image_file, p.reg_date, t.tran_status_code
+		p.price, p.image_file, p.reg_date,stock, quantity, t.tran_status_code
 		FROM product p, transaction t
 		WHERE t.prod_no(+) = p.prod_no AND p.prod_no=#{_parameter} AND p.deleted IS NULL
 	</select>
@@ -112,11 +114,17 @@
 			<if test="manuDate!=null">
 			,manufacture_Day=#{manuDate}
 			</if>
-			<if test="price!=null">
+			<if test="price!=0">
 			,price=#{price:NUMERIC}
 			</if>
 			<if test="fileName!=null">
 			,image_file=#{fileName}
+			</if>
+			<if test="quantity!=0">
+			,quantity=#{quantity}, stock=#{quantity}
+			</if>
+			<if test="stock!=0">
+			, stock=#{stock}
 			</if>
 		</trim>
 		WHERE prod_no=#{prodNo}
@@ -128,7 +136,7 @@
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
 				FROM ( SELECT
 						p.prod_no, p.prod_name, p.prod_detail, p.manufacture_Day, p.price, p.image_file,
-						p.reg_date, t.tran_status_code
+						p.reg_date,stock, quantity,  t.tran_status_code
 						FROM product p, transaction t
 						<where>
 							t.prod_no(+) = p.prod_no AND p.deleted IS NULL  
@@ -199,7 +207,7 @@
 		SELECT COUNT(*)
 		FROM( SELECT
 						p.prod_no, p.prod_name, p.prod_detail, p.manufacture_Day, p.price, p.image_file,
-						p.reg_date, t.tran_status_code
+						p.reg_date, stock, quantity, t.tran_status_code
 						FROM product p, transaction t
 						<where>
 							t.prod_no(+) = p.prod_no AND p.deleted IS NULL 

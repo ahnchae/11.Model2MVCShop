@@ -90,6 +90,19 @@
 		<hr/>
 		
 		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>등록한 수량</strong></div>
+			<div class="col-xs-8 col-md-4">${product.quantity}개</div>
+		</div>
+		
+		<hr/>
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>재고</strong></div>
+			<div class="col-xs-8 col-md-4">${product.stock}개</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
 	  		<div class="col-xs-4 col-md-2"><strong>상품이미지</strong></div>
 			<div class="col-xs-8 col-md-4">	
 					<c:if test="${product.fileNames==null}">

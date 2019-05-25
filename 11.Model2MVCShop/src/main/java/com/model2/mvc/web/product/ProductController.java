@@ -136,13 +136,16 @@ public class ProductController {
 		String finalFileName = "";
         for (MultipartFile multiFile : fileList) {
             String originalFileName = multiFile.getOriginalFilename(); // 원본 파일 명
-            finalFileName += originalFileName+",";
-			File serverFile = new File(path + File.separator + originalFileName);
-			multiFile.transferTo(serverFile);
+            if(!originalFileName.equals("")) {
+	            finalFileName += originalFileName+",";
+				File serverFile = new File(path + File.separator + originalFileName);
+				multiFile.transferTo(serverFile);
+            }
         }
-		finalFileName = finalFileName.substring(0, finalFileName.lastIndexOf(","));
-		product.setFileName(finalFileName);
-
+        if(finalFileName.contains(",")) {
+			finalFileName = finalFileName.substring(0, finalFileName.lastIndexOf(","));
+			product.setFileName(finalFileName);
+        }
 		productService.updateProduct(product);
 		
 		return "redirect:/product/getProduct?prodNo="+product.getProdNo();

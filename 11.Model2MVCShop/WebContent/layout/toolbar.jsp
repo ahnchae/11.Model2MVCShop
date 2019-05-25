@@ -136,7 +136,7 @@
 <div id="coupon" title="쿠폰 등록하기">
 <!-- coupon dialog start... -->
 <p>
-	쿠폰 번호를 등록하세요
+	쿠폰 번호를 입력하세요.
 <br>
 <br>
 <c:if test="${user.coupon!=null && user.coupon.discountCoupon10=='1' }">

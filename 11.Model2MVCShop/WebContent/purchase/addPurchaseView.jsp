@@ -23,7 +23,7 @@
 <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
     <!-- Bootstrap Dropdown Hover JS -->
 <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
-   
+
    
    <!-- jQuery UI toolTip 사용 CSS-->
   <!-- jQuery UI toolTip 사용 JS-->
@@ -40,6 +40,20 @@
 <script type="text/javascript">
 
 function fncAddPurchase() {
+	var amount=$('#amount').val();
+	var totalPrice=$('#totalPrice').val();
+	
+/* 	if(amount == null || amount.match(/^\d+$/)){
+		alert("수량에는 숫자만 입력해주세요.");
+		console.log(amount.match(/^\d+$/))
+		return;
+	}
+	
+	if(totalPrice == null || typeof totalPrice != "number"){
+		alert("전체 금액이 숫자가 아닙니다.");
+		return;
+	}
+	 */
 	$('form').attr("method", "POST").attr("action", "/purchase/addPurchase?prodNo=${product.prodNo}&buyerId=${user.userId}").submit();
 }
 
@@ -66,18 +80,39 @@ $(function(){
 		console.log($('input[type="checkbox"][name="couponPrice"]').is(":checked"))
 		console.log($('#originalPrice'))
 		if($('input[type="checkbox"][name="couponPrice"]').is(":checked")){
-			$('#originalPrice').empty()
-			$('small.text-primary').text("할인된 가격입니다.")
+			var prodPrice=${product.price};
+			var intValue = parseInt(prodPrice*0.9);
+			$('#originalPrice').html(intValue);
+			$('small.text-primary').text("할인된 가격입니다.");
 		}else{
-			$('#originalPrice').html('${product.price}<br><hr>')
+			$('#originalPrice').html('${product.price}')
 			$('small.text-primary').text("상품의 원래 가격입니다.")
 		}
+		var amount=$('#amount').val();
+		var priceForOne= $('#originalPrice').text();
+		var finalPrice=priceForOne*amount;
+		$('#totalPrice').html(finalPrice);
 	})
 	
 	
 })
 
-
+$(function(){
+	
+	$('#amount').on("keyup", function(){
+		console.log($('#amount').val())
+		console.log($('#originalPrice').text());
+		var amount=$('#amount').val();
+		var priceForOne= $('#originalPrice').text();
+		var finalPrice=priceForOne*amount;
+		console.log(finalPrice)
+		$('#totalPrice').html(finalPrice);
+	})
+	
+	
+	
+	
+})
 
 </script>
 </head>
@@ -125,18 +160,44 @@ $(function(){
 		  </div>
 		  
 		  <div class="form-group">
-		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
+		    <label for="priceForOne" class="col-sm-offset-1 col-sm-3 control-label">개당가격</label>
 		    <div class="col-sm-4">
-		      <u id="originalPrice" name="price">${product.price}<br><hr></u>		
+		      <u id="originalPrice" name="priceForOne">${product.price}</u>	
+			  <div>
+				<span class="text-success"><h6> ====적용가능한쿠폰====</h6>
+				 <c:if test="${user.coupon==null}">
+					적용 가능한 쿠폰이 없습니다.
+				 </c:if>
 		     	 <c:if test="${user.coupon.discountCoupon10=='1'}">
-					10% 할인쿠폰을 적용합니까?<input type="checkbox" name="couponPrice"/> 
-				<fmt:parseNumber var="price" value="${product.price*0.9}" integerOnly="true" />
-				<br>쿠폰 적용시 가격: ${price}
+					10% 할인쿠폰 <input type="checkbox" name="couponPrice"/> 
+						<fmt:parseNumber var="price" value="${product.price*0.9}" integerOnly="true" />
+						<br>(쿠폰 적용시 가격: ${price})
 				</c:if>
-			  
+				<h6> ====================</h6></span>
+			  </div>
 		    </div>
 		    <span id="helpBlock" class="help-block">
 		      	원&nbsp;&nbsp;&nbsp;<small class="text-primary">상품의 원래 가격입니다.</small>
+		    </span>
+		  </div>
+		  
+		  		  <div class="form-group">
+		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">전체가격</label>
+		    <div class="col-sm-4">
+		      <u id="totalPrice" name="price">구매수량을 입력해주세요.</u>	
+		    </div>
+		    <span id="helpBlock" class="help-block">
+		      	원
+		    </span>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="amount" class="col-sm-offset-1 col-sm-3 control-label">구매수량</label>
+		    <div class="col-sm-4">
+				<input type="text" class="form-control" name="amount" id="amount" placeholder="ex) 1">			  
+		    </div>
+		    <span id="helpBlock" class="help-block">
+		      	개
 		    </span>
 		  </div>
 		  

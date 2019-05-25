@@ -17,12 +17,23 @@ public class Purchase {
 	private String tranCode;
 	private int tranNo;
 	private int soldPrice;
-	
+	private int amount;
 	
 
 	public Purchase(){
 	}
 	
+	
+	public int getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+
 	public User getBuyer() {
 		return buyer;
 	}

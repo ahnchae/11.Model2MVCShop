@@ -335,36 +335,17 @@ body {
 										 </c:if>
                                     <div class="caption">
                                       <h3>${product.prodName}</h3>
-                                      <p>상품번호: ${product.prodNo}<br>가격:${product.price}<br>상태: <c:choose>
-										<c:when test="${product.proTranCode=='1  '}">
-										판매중
-										</c:when>
-										<c:when	test="${product.proTranCode=='2  '&& user.role=='admin'}">
-										구매 완료
-											<c:if test="${param.menu=='manage'}">
-												<span id="deliver${product.prodNo}">[배송하기]</span>
-												<span><input type="hidden" id="prodNo" value='${product.prodNo}'></span>
-											</c:if>
-										</c:when>
-										<c:when test="${product.proTranCode=='3  '&& user.role=='admin'}">
-										배송중
-										</c:when>
-										<c:when test="${product.proTranCode=='4  '&& user.role=='admin'}">
-										배송 완료
-										</c:when>
-										<c:otherwise>
-										재고 없음
-										</c:otherwise>
-									</c:choose></p>
+                                      <p>상품번호: ${product.prodNo}<br>가격:${product.price}<br>
+                                      	재고: ${product.stock} &nbsp;&nbsp;&nbsp;&nbsp;판매량: ${product.quantity-product.stock}</p>
                                       <p>
-                                      <a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}" class="btn btn-warning btn-block" role="button">
-                                      <c:if test="${param.menu=='manage' && product.proTranCode=='1  '}">
-                                      	<u>상품 정보 수정</u>
+                                      
+                                      <c:if test="${param.menu=='manage' && product.proTranCode=='1  ' && product.stock==product.quantity}">
+                                      	<a href="/product/getProduct?prodNo=${product.prodNo}&menu=manage" class="btn btn-warning btn-block" role="button"><u>상품 정보 수정</u></a>
                                       </c:if>
-                                      <c:if test="${param.menu!='manage' || product.proTranCode!='1  '}">
-                                     	 상세페이지
+                                      <c:if test="${!(param.menu=='manage' && product.proTranCode=='1  ' && product.stock==product.quantity)}">
+                                     	 <a href="/product/getProduct?prodNo=${product.prodNo}&menu=search" class="btn btn-warning btn-block" role="button"><u>상세페이지</u></a>
                                      </c:if>
-                                      </a>
+                                      
 									 </p>
                                     </div>
                                   </div>

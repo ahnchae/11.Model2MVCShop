@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.Search;
+import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.purchase.PurchaseDao;
 
@@ -58,6 +59,10 @@ public class PurchaseDaoImpl implements PurchaseDao {
 	@Override
 	public void insertPurchase(Purchase purchase) throws Exception {
 		// TODO Auto-generated method stub
+		Product product = new Product();
+		product.setProdNo(purchase.getPurchaseProd().getProdNo());
+		product.setStock(purchase.getPurchaseProd().getQuantity()-purchase.getAmount());
+		sqlSession.update("ProductMapper.updateProduct", product);
 		sqlSession.insert("PurchaseMapper.insertPurchase", purchase);
 	}
 

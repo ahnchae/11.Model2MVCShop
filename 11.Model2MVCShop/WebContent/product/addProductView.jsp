@@ -145,6 +145,16 @@ function resetData(){
 		  </div>
 		  
 		  <div class="form-group">
+		    <label for="quantity" class="col-sm-offset-1 col-sm-3 control-label">판매수량</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="quantity" name="quantity" placeholder="최대 99999까지 입력가능">
+		    </div>
+		    <span id="helpBlock" class="help-block">
+		      	개&nbsp;&nbsp;&nbsp;<small class="text-primary">숫자만 입력해주세요.</small>
+		    </span>
+		  </div>
+		  
+		  <div class="form-group">
 		    <label for="fileNameForReal" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
 		    <div class="col-sm-4">
 		      <input multiple="multiple" type="file" class="form-control" id="fileNameForReal" name="fileNameForReal">

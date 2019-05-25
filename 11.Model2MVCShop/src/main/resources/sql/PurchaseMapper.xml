@@ -18,6 +18,7 @@
 		<result property="tranCode" column="TRAN_STATUS_CODE" jdbcType="CHAR" />
 		<result property="tranNo" column="TRAN_NO" jdbcType="NUMERIC" />
 		<result property="soldPrice" column="sold_price" jdbcType="NUMERIC" />
+		<result property="amount" column="amount" jdbcType="NUMERIC" />
 		<association property="buyer" javaType="user">
 			<id property="userId" column="buyer_id" jdbcType="VARCHAR"/> 
 			<result property="userName" column="user_name" jdbcType="VARCHAR"/>
@@ -40,21 +41,23 @@
 			<result property="regDate" column="prodreg" jdbcType="DATE" />
 			<result property="proTranCode" column="tran_status_code"
 				jdbcType="CHAR" />
+			<result property="quantity" column="quantity" jdbcType="INTEGER" />
+			<result property="stock" column="stock" jdbcType="INTEGER" />
 		</association>
 	</resultMap>
 
 	<!-- SQL : INSERT -->
 	<insert id="insertPurchase" parameterType="purchase">
 		INSERT INTO transaction 
-		(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, sold_price) 
-		VALUES(seq_transaction_tran_no.nextval, #{purchaseProd.prodNo:NUMERIC}, #{buyer.userId:VARCHAR}, #{paymentOption:CHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, #{divyAddr:VARCHAR}, #{divyRequest:VARCHAR}, 2, SYSDATE, #{divyDate:DATE}, #{purchaseProd.price:NUMERIC})
+		(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, sold_price, amount) 
+		VALUES(seq_transaction_tran_no.nextval, #{purchaseProd.prodNo:NUMERIC}, #{buyer.userId:VARCHAR}, #{paymentOption:CHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, #{divyAddr:VARCHAR}, #{divyRequest:VARCHAR}, 2, SYSDATE, #{divyDate:DATE}, #{purchaseProd.price:NUMERIC}, #{amount})
 	</insert>
 
 	<!-- SQL : SELECT ONE -->
 	<select id="findPurchase" parameterType="int" resultMap="purchaseSelectMap">
 		SELECT
-		tran_no, t.prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, sold_price,
-		prod_name , prod_detail , manufacture_day ,
+		tran_no, t.prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, sold_price, amount,
+		prod_name , prod_detail , manufacture_day , quantity, stock,
 		price, image_file, p.reg_date prodreg,
 		user_name , password , role , ssn, cell_phone, addr, email , u.reg_date ureg
 		FROM transaction t
@@ -65,8 +68,8 @@
 	
 	<select id="findPurchase2" parameterType="int" resultMap="purchaseSelectMap">
 		SELECT
-		tran_no, t.prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, sold_price,
-		prod_name , prod_detail , manufacture_day ,
+		tran_no, t.prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, sold_price, amount,
+		prod_name , prod_detail , manufacture_day , quantity, stock,
 		price, image_file, p.reg_date prodreg,
 		user_name , password , role , ssn, cell_phone, addr, email , u.reg_date ureg
 		FROM transaction t
@@ -117,9 +120,9 @@
 		SELECT *
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
 				FROM ( SELECT
-						tran_no, t.prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, 
+						tran_no, t.prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, amount,
 						prod_name , prod_detail , manufacture_day ,
-						price, image_file, p.reg_date prodreg,
+						price, image_file, p.reg_date prodreg, quantity, stock,
 						user_name , password , role , ssn, cell_phone, addr, email , u.reg_date ureg
 						FROM transaction t
 						LEFT OUTER JOIN product p ON t.prod_no = p.prod_no
@@ -139,7 +142,7 @@
 	<select id="getTotalCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		FROM( SELECT
-			tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date
+			tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, amount
 			FROM transaction
 			WHERE buyer_id = #{userId}) countTable
 	</select>

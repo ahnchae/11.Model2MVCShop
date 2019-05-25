@@ -145,6 +145,16 @@ $(function(){
 		      	원&nbsp;&nbsp;&nbsp;<small class="text-primary">숫자만 입력해주세요.</small>
 		    </span>
 		  </div>
+		  		  
+		  <div class="form-group">
+		    <label for="quantity" class="col-sm-offset-1 col-sm-3 control-label">판매수량</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="quantity" name="quantity" value="${product.quantity}">
+		    </div>
+		    <span id="helpBlock" class="help-block">
+		      	개&nbsp;&nbsp;&nbsp;<small class="text-primary">숫자만 입력해주세요.</small>
+		    </span>
+		  </div>
 		  
 		  <div class="form-group">
 		    <label for="fileNameForReal" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>

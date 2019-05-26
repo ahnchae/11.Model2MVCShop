@@ -57,13 +57,14 @@ public class PurchaseDaoImpl implements PurchaseDao {
 	}
 
 	@Override
-	public void insertPurchase(Purchase purchase) throws Exception {
+	public int insertPurchase(Purchase purchase) throws Exception {
 		// TODO Auto-generated method stub
 		Product product = new Product();
 		product.setProdNo(purchase.getPurchaseProd().getProdNo());
-		product.setStock(purchase.getPurchaseProd().getQuantity()-purchase.getAmount());
+		product.setStock(purchase.getPurchaseProd().getStock()-purchase.getAmount());
 		sqlSession.update("ProductMapper.updateProduct", product);
 		sqlSession.insert("PurchaseMapper.insertPurchase", purchase);
+		return sqlSession.selectOne("PurchaseMapper.getTranNo");
 	}
 
 	@Override

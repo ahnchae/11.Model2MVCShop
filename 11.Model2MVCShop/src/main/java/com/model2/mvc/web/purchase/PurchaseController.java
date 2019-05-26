@@ -71,11 +71,11 @@ public class PurchaseController {
 		}
 		purchase.setBuyer(userService.getUser(userId));
 		purchase.setTranCode("2  ");
-		purchaseService.addPurchase(purchase);
+		int tranNo = purchaseService.addPurchase(purchase);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("forward:/purchase/addPurchase.jsp");
-		modelAndView.addObject("purchase",purchaseService.getPurchase2(prodNo));
+		modelAndView.addObject("purchase",purchaseService.getPurchase(tranNo));
 		
 		return modelAndView;
 	}

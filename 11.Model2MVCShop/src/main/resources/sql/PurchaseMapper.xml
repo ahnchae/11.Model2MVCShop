@@ -50,8 +50,12 @@
 	<insert id="insertPurchase" parameterType="purchase">
 		INSERT INTO transaction 
 		(tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, sold_price, amount) 
-		VALUES(seq_transaction_tran_no.nextval, #{purchaseProd.prodNo:NUMERIC}, #{buyer.userId:VARCHAR}, #{paymentOption:CHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, #{divyAddr:VARCHAR}, #{divyRequest:VARCHAR}, 2, SYSDATE, #{divyDate:DATE}, #{purchaseProd.price:NUMERIC}, #{amount})
+		VALUES(seq_transaction_tran_no.nextval, #{purchaseProd.prodNo:NUMERIC}, #{buyer.userId:VARCHAR}, #{paymentOption:CHAR}, #{receiverName:VARCHAR}, #{receiverPhone:VARCHAR}, #{divyAddr:VARCHAR}, #{divyRequest:VARCHAR}, 2, SYSDATE, #{divyDate:DATE}, #{soldPrice:NUMERIC}, #{amount})
 	</insert>
+	
+	<select id="getTranNo" resultType="int">
+		SELECT seq_transaction_tran_no.CURRVAL FROM DUAL
+	</select>
 
 	<!-- SQL : SELECT ONE -->
 	<select id="findPurchase" parameterType="int" resultMap="purchaseSelectMap">

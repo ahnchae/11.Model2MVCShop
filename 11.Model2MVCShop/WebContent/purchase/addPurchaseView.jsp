@@ -42,6 +42,11 @@
 function fncAddPurchase() {
 	var amount=$('#amount').val();
 	var totalPrice=$('#totalPrice').val();
+	var stock = ${product.stock};
+	if(amount>stock){
+		alert("구매수량과 상품재고를 확인해주세요.")
+		return;
+	}
 	
 /* 	if(amount == null || amount.match(/^\d+$/)){
 		alert("수량에는 숫자만 입력해주세요.");
@@ -91,7 +96,7 @@ $(function(){
 		var amount=$('#amount').val();
 		var priceForOne= $('#originalPrice').text();
 		var finalPrice=priceForOne*amount;
-		$('#totalPrice').html(finalPrice);
+		$('#totalPrice').val(finalPrice);
 	})
 	
 	
@@ -100,13 +105,14 @@ $(function(){
 $(function(){
 	
 	$('#amount').on("keyup", function(){
-		console.log($('#amount').val())
-		console.log($('#originalPrice').text());
+		//console.log($('#amount').val())
+		//console.log($('#originalPrice').text());
+		//console.log($('#totalPrice').val())
 		var amount=$('#amount').val();
 		var priceForOne= $('#originalPrice').text();
 		var finalPrice=priceForOne*amount;
-		console.log(finalPrice)
-		$('#totalPrice').html(finalPrice);
+		//console.log(finalPrice)
+		$('#totalPrice').val(finalPrice);
 	})
 	
 	
@@ -184,7 +190,7 @@ $(function(){
 		  		  <div class="form-group">
 		    <label for="price" class="col-sm-offset-1 col-sm-3 control-label">전체가격</label>
 		    <div class="col-sm-4">
-		      <u id="totalPrice" name="price">구매수량을 입력해주세요.</u>	
+		      <input type="text" class="form-control" id="totalPrice" name="soldPrice" value="구매수량을 입력해주세요." readonly/>
 		    </div>
 		    <span id="helpBlock" class="help-block">
 		      	원
@@ -197,7 +203,7 @@ $(function(){
 				<input type="text" class="form-control" name="amount" id="amount" placeholder="ex) 1">			  
 		    </div>
 		    <span id="helpBlock" class="help-block">
-		      	개
+		      	개 (재고 : ${product.stock}개)
 		    </span>
 		  </div>
 		  

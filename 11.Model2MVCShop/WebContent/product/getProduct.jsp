@@ -119,7 +119,7 @@
 		<hr/>
 
 		<div class="row">
-		<c:if test="${(param.menu!=null) && (param.menu=='search'&&product.proTranCode=='1  ')}">
+		<c:if test="${(param.menu!=null) && (param.menu=='search'&&product.stock>0)}">
 	  		<div class="col-md-3 text-right ">
 	  			<button id="addPurchase" type="button" class="btn btn-primary">±¸¸Å</button>
 	  		</div>

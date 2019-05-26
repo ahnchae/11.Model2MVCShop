@@ -30,9 +30,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	public void addPurchase(Purchase purchase) throws Exception {
+	public int addPurchase(Purchase purchase) throws Exception {
 		// TODO Auto-generated method stub
-		purchaseDao.insertPurchase(purchase);
+		return purchaseDao.insertPurchase(purchase);
 	}
 
 	@Override
@@ -77,8 +77,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public Purchase discountPurchase(Purchase purchase, double discountRate, String userId, String couponType) throws Exception {
 		// TODO Auto-generated method stub
-		//가격 할인하기
-		purchase.getPurchaseProd().setPrice((int)(purchase.getPurchaseProd().getPrice()*discountRate));
+		//가격 할인하기(지금은 화면에서 넘어올 때 할인 적용된 가격이 넘어옴
+		//purchase.setSoldPrice((int)(purchase.getSoldPrice()*discountRate));
 		
 		//쿠폰 사용하기
 		User user = userService.getUser(userId);

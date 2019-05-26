@@ -24,10 +24,10 @@
 	<select id="getAutoComplete" parameterType='search' resultMap='productSelectMap'>
 	SELECT
 						p.prod_no, p.prod_name, p.prod_detail, p.manufacture_Day, p.price, p.image_file,
-						p.reg_date, stock, quantity, t.tran_status_code
-						FROM product p, transaction t
+						p.reg_date, stock, quantity
+						FROM product p
 						<where>
-							t.prod_no(+) = p.prod_no AND p.deleted IS NULL 
+							p.deleted IS NULL 
 							<if test="searchCondition != null">
 								<if test="searchCondition==0 and searchKeyword!=''">
 									AND p.prod_no LIKE '%'||#{searchKeyword}||'%'
@@ -36,16 +36,7 @@
 									AND p.prod_name LIKE '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition==3">
-									AND t.tran_status_code IS NULL
-								</if>
-								<if test="searchCondition==4">
-									AND t.tran_status_code IN ('2  ')
-								</if>
-								<if test="searchCondition==5">
-									AND t.tran_status_code IN ('3  ')
-								</if>
-								<if test="searchCondition==6">
-									AND t.tran_status_code IN ('4  ')
+									AND p.stock > 0 
 								</if>
 							</if>
 				
@@ -96,9 +87,9 @@
 	<select id="findProduct" parameterType="int" resultMap="productSelectMap">
 		SELECT
 		p.prod_no, p.prod_name, p.prod_detail, p.manufacture_Day,
-		p.price, p.image_file, p.reg_date,stock, quantity, t.tran_status_code
-		FROM product p, transaction t
-		WHERE t.prod_no(+) = p.prod_no AND p.prod_no=#{_parameter} AND p.deleted IS NULL
+		p.price, p.image_file, p.reg_date,stock, quantity
+		FROM product p
+		WHERE p.prod_no=#{_parameter} AND p.deleted IS NULL
 	</select>
 
 	<!-- SQL : UPDATE -->
@@ -136,10 +127,10 @@
 		FROM ( SELECT inner_table.* , ROWNUM AS row_seq
 				FROM ( SELECT
 						p.prod_no, p.prod_name, p.prod_detail, p.manufacture_Day, p.price, p.image_file,
-						p.reg_date,stock, quantity,  t.tran_status_code
-						FROM product p, transaction t
+						p.reg_date,stock, quantity 
+						FROM product p 
 						<where>
-							t.prod_no(+) = p.prod_no AND p.deleted IS NULL  
+							p.deleted IS NULL  
 							<if test="searchCondition != null">
 								<if test="searchCondition==0 and searchKeyword!=''">
 									AND p.prod_no LIKE '%'||#{searchKeyword}||'%'
@@ -148,16 +139,7 @@
 									AND p.prod_name LIKE '%'||#{searchKeyword}||'%'
 								</if>
 								<if test="searchCondition==3">
-									AND t.tran_status_code IS NULL
-								</if>
-								<if test="searchCondition==4">
-									AND t.tran_status_code IN ('2  ')
-								</if>
-								<if test="searchCondition==5">
-									AND t.tran_status_code IN ('3  ')
-								</if>
-								<if test="searchCondition==6">
-									AND t.tran_status_code IN ('4  ')
+									AND p.stock > 0 
 								</if>
 							</if>
 				
@@ -207,10 +189,10 @@
 		SELECT COUNT(*)
 		FROM( SELECT
 						p.prod_no, p.prod_name, p.prod_detail, p.manufacture_Day, p.price, p.image_file,
-						p.reg_date, stock, quantity, t.tran_status_code
-						FROM product p, transaction t
+						p.reg_date, stock, quantity 
+						FROM product p 
 						<where>
-							t.prod_no(+) = p.prod_no AND p.deleted IS NULL 
+							p.deleted IS NULL 
 							<if test="searchCondition != null">
 								<if test="searchCondition == 0 and searchKeyword!=''">
 									AND p.prod_no LIKE '%'||#{searchKeyword}||'%'
@@ -218,17 +200,8 @@
 								<if test="searchCondition == 1 and searchKeyword!=''">
 									AND p.prod_name LIKE '%'||#{searchKeyword}||'%'
 								</if>
-								<if test="searchCondition ==3">
-									AND t.tran_status_code IS NULL
-								</if>
-								<if test="searchCondition ==4">
-									AND t.tran_status_code IN ('2 ')
-								</if>
-								<if test="searchCondition == 5">
-									AND t.tran_status_code IN ('3 ')
-								</if>
-								<if test="searchCondition == 6">
-									AND t.tran_status_code IN ('4 ')
+								<if test="searchCondition==3">
+									AND p.stock > 0 
 								</if>
 							</if>
 				

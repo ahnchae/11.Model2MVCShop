@@ -66,7 +66,7 @@ public class ProductController {
 		System.out.println("/product/addProduct : POST");
 		
 		//업로드 파일 저장소
-		String path = "C:\\Users\\ahnch\\git\\11.Model2MVCShop\\11.Model2MVCShop\\WebContent\\images\\uploadFiles";
+		String path = "C:\\Users\\USER\\git\\11.Model2MVCShop\\11.Model2MVCShop\\WebContent\\images\\uploadFiles";
 		
 		List<MultipartFile> fileList = multipartHttpServletRequest.getFiles("fileNameForReal");
 		String finalFileName = "";
@@ -130,7 +130,7 @@ public class ProductController {
 	@RequestMapping(value="/updateProduct", method=RequestMethod.POST)
 	public String updateProduct(@ModelAttribute("product") Product product, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
 		System.out.println("/product/updateProduct : POST");
-		String path = "C:\\Users\\ahnch\\git\\11.Model2MVCShop\\11.Model2MVCShop\\WebContent\\images\\uploadFiles";
+		String path = "C:\\Users\\USER\\git\\11.Model2MVCShop\\11.Model2MVCShop\\WebContent\\images\\uploadFiles";
 		
 		List<MultipartFile> fileList = multipartHttpServletRequest.getFiles("fileNameForReal");
 		String finalFileName = "";

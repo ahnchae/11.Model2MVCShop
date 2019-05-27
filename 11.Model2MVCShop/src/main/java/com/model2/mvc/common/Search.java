@@ -98,7 +98,7 @@ public class Search {
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition=" + searchCondition + ", searchKeyword="
-				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + endRowNum + ", startRowNum=" + startRowNum
+				+ searchKeyword + ", pageSize=" + pageSize + ", endRowNum=" + getCurrentPage()*getPageSize() + ", startRowNum=" + ((getCurrentPage()-1)*getPageSize()+1)
 				+ ", sorting=" + sorting + ", searchKeyword1=" + searchKeyword1 + ", searchKeyword2=" + searchKeyword2
 				+ ", priceSearch=" + priceSearch + "]";
 	}

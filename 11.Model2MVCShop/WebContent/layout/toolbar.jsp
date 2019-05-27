@@ -65,7 +65,7 @@
 		                         <li><a href="#">판매상품등록</a></li>
 		                         <li><a href="#">판매상품관리</a></li>
 		                         <li class="divider"></li>
-		                         <li><a href="#">etc..</a></li>
+		                         <li><a href="#">구매목록조회</a></li>
 		                     </ul>
 		                </li>
 	                 </c:if>
@@ -189,6 +189,15 @@
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 	$("a:contains('구매이력조회')").on("click" , function() {
+				$(self.location).attr("href","/purchase/listPurchase");
+				//self.location = "/user/logout"
+			}); 
+		 });
+		
+			//============= 배송관리 Event  처리 =============	
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 	$("a:contains('구매목록조회')").on("click" , function() {
 				$(self.location).attr("href","/purchase/listPurchase");
 				//self.location = "/user/logout"
 			}); 

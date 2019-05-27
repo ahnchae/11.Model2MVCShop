@@ -131,7 +131,19 @@
 						FROM transaction t
 						LEFT OUTER JOIN product p ON t.prod_no = p.prod_no
 						LEFT OUTER JOIN users u ON t.buyer_id = u.user_id
-						WHERE buyer_id = #{userId} AND t.deleted IS NULL 
+						WHERE t.deleted IS NULL 
+						<if test="userId!=''">
+						AND buyer_id = #{userId} 
+						</if>
+						<if test="search.searchCondition==4">
+						AND tran_status_code = '2  ' 
+						</if>
+						<if test="search.searchCondition==5">
+						AND tran_status_code = '3  '
+						</if>
+						<if test="search.searchCondition==6">
+						AND tran_status_code = '4  ' 
+						</if>
 						ORDER BY tran_no
 						) inner_table
 						WHERE ROWNUM &lt;= #{search.endRowNum} )
@@ -148,7 +160,19 @@
 		FROM( SELECT
 			tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date, amount
 			FROM transaction
-			WHERE buyer_id = #{userId}) countTable
+									WHERE deleted IS NULL 
+						<if test="userId!=''">
+						AND buyer_id = #{userId} 
+						</if>
+						<if test="search.searchCondition==4">
+						AND tran_status_code = '2  ' 
+						</if>
+						<if test="search.searchCondition==5">
+						AND tran_status_code = '3  '
+						</if>
+						<if test="search.searchCondition==6">
+						AND tran_status_code = '4  ' 
+						</if>) countTable
 	</select>
 
 	<!-- 구매취소 -->

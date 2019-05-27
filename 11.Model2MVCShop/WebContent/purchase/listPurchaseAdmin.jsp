@@ -24,7 +24,6 @@
 
 <html>
 <head>
-<title>구매 목록조회</title>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 	
@@ -61,14 +60,6 @@
 	   	$('form[name=detailForm]').attr("method", "POST").attr("action", "/purchase/listPurchase").submit();		
 	}
 	
-	function deletePurchase(tranNo){
-		if(confirm('정말 취소하시겠습니까? \n취소한 결제내역은 복구할 수 없습니다.')){
-			self.location="/purchase/deletePurchase?tranNo="+tranNo+""
-		}else{
-			return;
-		}
-	}
-	
 	$(function(){
 		$('tr td[title]').on("click", function(){
 			//alert("");
@@ -90,7 +81,7 @@
 					//alert(status);
 					//alert("JSONData : \n"+JSONData);
 				
-					var displayValue= "<td></td><td colspan='7'><h5>"+"주문일: "+JSONData.orderDate+"<br>"
+					var displayValue= "<td></td><td colspan='8'><h5>"+"주문일: "+JSONData.orderDate+"<br>"
 											+"상품명: "+JSONData.purchaseProd.prodName+"<br>"
 											+"구매자: "+JSONData.buyer.userId+"<br>";
 							   displayValue += "배송 받는 분: ";
@@ -107,10 +98,7 @@
 							   displayValue +=   "요청사항: ";
 							   displayValue += (JSONData.divyRequest==null) ? "<br>" : JSONData.divyRequest+"<br>"
 							   displayValue += "<hr>";
-					if(JSONData.tranCode=='2  '){
-						displayValue += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:deletePurchase("+JSONData.tranNo+")'>"+JSONData.purchaseProd.prodName+" 구매 취소</a>";
-						displayValue += "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='/purchase/updatePurchase?tranNo="+JSONData.tranNo+"'>구매정보수정</a>";
-					}
+
 					displayValue += "</td></h5>"
 					$("#"+tranNo+"").html(displayValue);
 
@@ -123,13 +111,17 @@
 		})
 		
 	
+		$('select[name="searchCondition"]').on("change", function(){
+			//alert("select");
+			$('form').attr('method', 'POST').attr('action', '/purchase/listPurchase').submit();
+		})
 		
-		
-		$('u:contains("물건도착")').on("click", function(){
+		$('u:contains("배송하기")').on("click", function(){
+			//alert("배송하기 눌렸다")
 			var tranNo = $($('tbody tr td:nth-child(3) input')[$('u').index(this)]).val();
 			console.log($('u').index(this));
 			console.log(tranNo);
-			location="/purchase/updateTranCode?tranNo="+tranNo+"&tranCode=4";
+			location="/purchase/updateTranCode?tranNo="+tranNo+"&tranCode=3";
 		})
 	})
 </script>
@@ -148,20 +140,34 @@
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>구매목록조회</h3>
+	       <h3>(관리자용) 구매목록조회</h3>
 	    </div>
 	    
+	    <form>
+		<select name="searchCondition" class="form-control" style="width: 160px;float: right">
+				<option value="8"
+						${empty search.searchCondition || !empty search.searchCondition && search.searchCondition=='8'? "selected" : ""}>전체보기</option>
+				<option value="4"
+						${!empty search.searchCondition && search.searchCondition=='4'? "selected" : ""}>구매완료</option>
+				<option value="5"
+						${!empty search.searchCondition && search.searchCondition=='5'? "selected" : ""}>배송중</option>
+				<option value="6"
+						${!empty search.searchCondition && search.searchCondition=='6'? "selected" : ""}>배송완료</option>
+		</select>
+		</form>
+
+
       <!--  table Start /////////////////////////////////////-->
       <table class="table table-hover table-striped" >
-      
         <thead>
           <tr>
             <th align="center">No</th>
             <th align="left" >상품명</th><th></th><th></th>
+            <th align="left">유저아이디</th>
             <th align="left">주문일자</th>
             <th align="left">요청사항</th>
             <th align="left">배송현황</th>
-			<th align="left">수취확인</th>
+			<th align="left">구매상태</th>
           </tr>
         </thead>
        
@@ -174,6 +180,7 @@
 			  <td align="center">${ i }</td>
 			  <td align="left" title="Click : 구매정보 확인">${purchase.purchaseProd.prodName}</td>
 			  <td><input type="hidden" value="${purchase.tranNo}"><td>
+			  <td align="left">${purchase.buyer.userId}</td>
 			  <td align="left">${purchase.orderDate}</td>
 			  <td align="left">${purchase.divyRequest}</td>
 			  <td align="left">
@@ -192,11 +199,19 @@
 			</c:choose>
 				상태 입니다.
 			  </td>
-			  <td align="left"><u>
-			  <c:if test="${purchase.tranCode=='3  '}">
-				물건도착
-				</c:if>
+			  <td align="left">
+			  <c:if test="${purchase.tranCode=='2  '}">
+				구매완료
+			</c:if>
+			  <u>
+			  <c:if test="${purchase.tranCode=='2  '}">
+				배송하기
+			</c:if>
 			</u>
+			  <c:if test="${purchase.tranCode=='3  '}">
+				배송중
+				</c:if>
+
 			<c:if test="${purchase.tranCode=='4  '}">
 				배송완료
 			</c:if></td>

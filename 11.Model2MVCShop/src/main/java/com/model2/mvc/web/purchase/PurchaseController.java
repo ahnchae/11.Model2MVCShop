@@ -82,6 +82,7 @@ public class PurchaseController {
 	
 	@RequestMapping("/listPurchase")
 	public ModelAndView listPurchase(@ModelAttribute("search") Search search, HttpSession session) throws Exception{
+		ModelAndView modelAndView = new ModelAndView();
 		System.out.println("/purchase/listPurchase");
 	
 		if(search.getCurrentPage()==0) {
@@ -89,13 +90,18 @@ public class PurchaseController {
 		}
 		search.setPageSize(pageSize);
 		
-		Map<String, Object> map = purchaseService.getPurchaseList(search, ((User)session.getAttribute("user")).getUserId());
+		String userId = ((User)session.getAttribute("user")).getUserId();
+		if(userId.equals("admin")||userId.equals("manager")) {
+			userId = "";
+			modelAndView.setViewName("forward:/purchase/listPurchaseAdmin.jsp");
+		}else {
+			modelAndView.setViewName("forward:/purchase/listPurchase.jsp");
+		}
+		Map<String, Object> map = purchaseService.getPurchaseList(search, userId);
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("forward:/purchase/listPurchase.jsp");
 		modelAndView.addObject("list", map.get("list"));
 		modelAndView.addObject("resultPage", resultPage);
 		modelAndView.addObject("search", search);
@@ -138,10 +144,14 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/deletePurchase")
-	public ModelAndView deletePurchase(@RequestParam("tranNo") int tranNo) throws Exception{
+	public ModelAndView deletePurchase(@RequestParam("tranNo") int tranNo, HttpSession session) throws Exception{
 		System.out.println("/purchase/deletePurchase");
 
 		purchaseService.deletePurchase(tranNo);
+		
+		//쿠폰 사용으로 인한 user session update
+		session.setAttribute("user", userService.getUser(((User)session.getAttribute("user")).getUserId()));
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/purchase/listPurchase");
 		return modelAndView;
@@ -153,6 +163,8 @@ public class PurchaseController {
 		Purchase purchase = purchaseService.getPurchase(tranNo);
 		purchase.setTranCode(tranCode);
 		purchaseService.updateTranCode(purchase);
+		
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("redirect:/purchase/listPurchase");
 		return modelAndView;

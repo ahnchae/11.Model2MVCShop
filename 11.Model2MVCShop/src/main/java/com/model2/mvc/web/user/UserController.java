@@ -43,6 +43,16 @@ public class UserController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
+	@RequestMapping( value="addUserForKakao", method=RequestMethod.POST )
+	public String addUserForKakao(@ModelAttribute User user) throws Exception{
+		System.out.println("/user/addUserForKakao : POST");
+		System.out.println("~~~~~~~~~User : "+user);
+		//이미 가입된 아이디 있는지 조회
+		User dbKakaoUser = userService.getKakao(user.getKakaoId());
+		
+		//addUserView에 해당 데이터 전해주기
+		return "forward:/user/addUserView.jsp";
+	}
 	
 	//@RequestMapping("/addUserView.do")
 	//public String addUserView() throws Exception {

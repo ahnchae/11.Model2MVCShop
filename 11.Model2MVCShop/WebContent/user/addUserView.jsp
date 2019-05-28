@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 
@@ -212,7 +212,19 @@
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
-		
+		<input type="hidden" name="kakaoId" value="${user.kakaoId}"/>
+		<input type="hidden" name="profileImage" value="${user.profileImage}"/>
+		<input type="hidden" name="thumbnailImage" value="${user.thumbnailImage}"/>
+		 
+		 <c:if test="${user.thumbnailImage!=null}">
+		  <div class="form-group">
+		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">카카오톡 프로필</label>
+		    <div class="col-sm-4">
+		      <img alt="카카오톡 프로필" src="${user.thumbnailImage}">
+		    </div>
+		   </div>
+		  </c:if>
+		 
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
 		    <div class="col-sm-4">
@@ -246,7 +258,7 @@
 		  <div class="form-group">
 		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">이름</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userName" name="userName" placeholder="회원이름">
+		      <input type="text" class="form-control" id="userName" name="userName" placeholder="회원이름" value="${user.nickname}">
 		    </div>
 		  </div>
 		  

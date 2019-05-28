@@ -51,7 +51,9 @@
 		});
 		
 	</script>	
-	
+	<!-- 카카오톡 로그인 -->
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
 </head>
 
 <body>
@@ -155,7 +157,79 @@
 			  		<div class="text-center">
 			  			<a class="btn btn-info btn-lg" href="#" role="button">회원가입</a>
 			  			<a class="btn btn-info btn-lg" href="#" role="button">로 그 인</a>
+			  			<a id="kakao-login-btn"></a>
+						<script type='text/javascript'>
+						  //<![CDATA[
+						    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+						        Kakao.init('8b2d26ebbec91d10d4351ba7c7de8284');
+						        // 카카오 로그인 버튼을 생성합니다.
+						        Kakao.Auth.createLoginButton({
+						          container: '#kakao-login-btn',
+						          success: function(authObj) {
+						            // 로그인 성공시, API를 호출합니다.
+						            Kakao.API.request({
+						              url: '/v2/user/me',
+						              success: function(res) {
+						            	
+						            	
+						            	var userId = res.id;
+										//	console.log(userId)
+										 	$.ajax( 
+													{
+														url : "/user/json/checkKakao/"+userId,
+														method : "POST" ,
+														dataType : "json" ,
+														headers : {
+															"Accept" : "application/json",
+															"Content-Type" : "application/json"
+														},
+														success : function(JSONData , status) {
+					
+															//Debug...
+															//alert(status);
+															//alert("JSONData : \n"+JSONData);
+															//alert( "JSON.stringify(JSONData) : \n"+JSON.stringify(JSONData) );
+															//alert( JSONData != null );
+															
+															if(JSONData.message=="ok"){
+																alert("카카오와 연동되도록 Model2MVCShop에서도 회원가입을 해 주세요~")
+																$('#kakaoId').val(res.id);
+												                //alert(res.id);
+												                $('#nickname').val(res.properties.nickname)
+												                $('#profileImage').val(res.properties.profile_image)
+												               	$('#thumbnailImage').val(res.properties.thumbnail_image)
+												               	//console.log($('form').html())
+												               	$('form').attr("action", "/user/addUserForKakao").attr("method", "POST").submit();
+															}else if(JSONData.message!="ok"){
+																alert("입력하신 카카오 아이디가 이미 가입되어있습니다.")
+															}
+														}
+												});
+										
+						            	//console.log("_"+res.id+"_");
+						                //alert(JSON.stringify(res));
+						                
+						              },
+						              fail: function(error) {
+						                alert(JSON.stringify(error));
+						              }
+						            });
+						          },
+						          fail: function(err) {
+						            alert(JSON.stringify(err));
+						          }
+						        });
+						
+						  //]]>
+						</script>
+						<form>
+							<input type="hidden" id="kakaoId" name="kakaoId" value=""/>
+							<input type="hidden" id="nickname" name="nickname" value=""/>
+							<input type="hidden" id="profileImage" name="profileImage" value=""/>
+							<input type="hidden" id="thumbnailImage" name="thumbnailImage" value=""/>
+						</form>
 			  		</div>
+			  		
 			  	
 			  	</div>
 	        </div>

@@ -33,6 +33,9 @@ public class UserDaoImpl implements UserDao{
 	///Method
 	public void addUser(User user) throws Exception {
 		sqlSession.insert("UserMapper.addUser", user);
+		if(user.getKakaoId()!=null) {
+			sqlSession.insert("UserMapper.addKakao", user);
+		}
 	}
 
 	public User getUser(String userId) throws Exception {
@@ -64,4 +67,10 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectList("UserMapper.getAutoComplete", search);
 	}
 
+	@Override
+	public User getKakao(String kakaoId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("UserMapper.getKakao", kakaoId);
+	}
+	
 }

@@ -124,7 +124,7 @@ public class UserRestController {
 		return userService.getUser(userId);
 	}
 	
-	//회원가임) DB에 user정보 더하기
+	//회원가입) DB에 user정보 더하기
 	@RequestMapping( value="json/addUser", method=RequestMethod.POST )
 	public User addUser( @RequestBody User user, HttpServletResponse response ) throws Exception {
 
@@ -156,6 +156,23 @@ public class UserRestController {
 		// Model 과 View 연결
 		Map<String, String> map = new HashMap<>();
 		if(result) {
+			map.put("message", "ok");
+		}else {
+			map.put("message", "no good");
+		}
+
+		return map;
+	}
+	
+	//카카오ID 중복확인
+	@RequestMapping( value="json/checkKakao/{kakaoId}", method=RequestMethod.POST )
+	public Map checkKakao( @PathVariable String kakaoId) throws Exception{
+		
+		System.out.println("/user/json/checkKakao : POST");
+		//Business Logic
+		User dbKakaoUser=userService.getKakao(kakaoId);
+		Map<String, String> map = new HashMap<>();
+		if(dbKakaoUser==null) {
 			map.put("message", "ok");
 		}else {
 			map.put("message", "no good");

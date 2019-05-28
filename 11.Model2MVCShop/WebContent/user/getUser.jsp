@@ -75,6 +75,13 @@
 		
 		<hr/>
 		
+	    <div class="row">
+	      <div class="col-xs-4 col-md-2 "><strong>카카오톡 프로필</strong></div>
+		  <div class="col-xs-8 col-md-4"><img alt="카카오톡 프로필" src="${user.thumbnailImage}"></div>
+	    </div>
+		
+		<hr/>
+		
 		<div class="row">
 	  		<div class="col-xs-4 col-md-2 "><strong>주소</strong></div>
 			<div class="col-xs-8 col-md-4">${user.addr}</div>

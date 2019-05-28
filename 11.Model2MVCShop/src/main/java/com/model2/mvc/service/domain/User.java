@@ -25,6 +25,11 @@ public class User {
 	/////////////////////////////////////////////////////
 	private String discountCoupon10;
 	private Coupon coupon;
+	////////////////////////////////////////////////
+	private String kakaoId;
+	private String nickname;
+	private String profileImage;
+	private String thumbnailImage;
 
 //	public String getBirthday() {
 //		return ssn.substring(5, 8);
@@ -32,6 +37,44 @@ public class User {
 	
 	public String getDiscountCoupon10() {
 		return discountCoupon10;
+	}
+
+
+
+	public String getKakaoId() {
+		return kakaoId;
+	}
+
+
+
+	public void setKakaoId(String kakaoId) {
+		this.kakaoId = kakaoId;
+	}
+
+
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+
+	public String getThumbnailImage() {
+		return thumbnailImage;
+	}
+
+	public void setThumbnailImage(String thumbnailImage) {
+		this.thumbnailImage = thumbnailImage;
 	}
 
 	public void setDiscountCoupon10(String discountCoupon10) {
@@ -124,7 +167,12 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
-			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate+" [Coupon]"+coupon;
+		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", role=" + role
+				+ ", ssn=" + ssn + ", phone=" + phone + ", addr=" + addr + ", email=" + email + ", regDate=" + regDate
+				+ ", discountCoupon10=" + discountCoupon10 + ", coupon=" + coupon + ", kakaoId=" + kakaoId
+				+ ", nickname=" + nickname + ", profileImage=" + profileImage + ", thumbnailImage=" + thumbnailImage
+				+ "]";
 	}
+
+
 }

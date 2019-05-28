@@ -94,4 +94,10 @@ public class UserServiceImpl implements UserService{
 		
 		return userDao.getAutoComplete(search);
 	}
+
+	@Override
+	public User getKakao(String kakaoId) throws Exception {
+		// TODO Auto-generated method stub
+		return userDao.getKakao(kakaoId);
+	}
 }

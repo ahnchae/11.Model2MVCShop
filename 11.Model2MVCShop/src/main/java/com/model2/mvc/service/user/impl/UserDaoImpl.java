@@ -68,9 +68,15 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public User getKakao(String kakaoId) throws Exception {
+	public User checkDupliactionKakao(String kakaoId) throws Exception {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("UserMapper.getKakao", kakaoId);
+	}
+
+	@Override
+	public User getUserKakao(String kakaoId) throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("UserMapper.getUser2", kakaoId);
 	}
 	
 }

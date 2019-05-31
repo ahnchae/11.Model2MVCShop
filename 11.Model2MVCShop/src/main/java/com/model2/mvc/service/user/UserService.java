@@ -16,7 +16,11 @@ public interface UserService {
 	// 내정보확인 / 로그인
 	public User getUser(String userId) throws Exception;
 	
-	public User getKakao(String kakaoId) throws Exception;
+	//카카오 중복확인
+	public User checkDuplicationKakao(String kakaoId) throws Exception;
+	
+	//카카오 로그인.
+	public User getUserKakao(String kakaoId) throws Exception;
 	
 	// 회원정보리스트 
 	public Map<String , Object> getUserList(Search search) throws Exception;

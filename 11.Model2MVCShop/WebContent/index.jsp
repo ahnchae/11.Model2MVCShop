@@ -171,7 +171,7 @@
 						              url: '/v2/user/me',
 						              success: function(res) {
 						            	
-						            	
+						            	alert(JSON.stringify(res))
 						            	var userId = res.id;
 										//	console.log(userId)
 										 	$.ajax( 
@@ -190,18 +190,19 @@
 															//alert("JSONData : \n"+JSONData);
 															//alert( "JSON.stringify(JSONData) : \n"+JSON.stringify(JSONData) );
 															//alert( JSONData != null );
-															
+															$('#kakaoId').val(res.id);
+												                //alert(res.id);
+											                $('#nickname').val(res.properties.nickname)
+											                $('#profileImage').val(res.properties.profile_image)
+											               	$('#thumbnailImage').val(res.properties.thumbnail_image)
+											               	
 															if(JSONData.message=="ok"){
 																alert("카카오와 연동되도록 Model2MVCShop에서도 회원가입을 해 주세요~")
-																$('#kakaoId').val(res.id);
-												                //alert(res.id);
-												                $('#nickname').val(res.properties.nickname)
-												                $('#profileImage').val(res.properties.profile_image)
-												               	$('#thumbnailImage').val(res.properties.thumbnail_image)
 												               	//console.log($('form').html())
 												               	$('form').attr("action", "/user/addUserForKakao").attr("method", "POST").submit();
 															}else if(JSONData.message!="ok"){
-																alert("입력하신 카카오 아이디가 이미 가입되어있습니다.")
+																alert("카카오 계정으로 로그인합니다.")
+																$('form').attr("action", "/user/login").attr("method", "POST").submit();
 															}
 														}
 												});

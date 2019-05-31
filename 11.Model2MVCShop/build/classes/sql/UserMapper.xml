@@ -54,6 +54,16 @@
 		WHERE u.user_id = #{value}
 	 </select>
 	 
+	 	 <!-- SQL : SELECT ONE -->
+	 <select 	id="getUser2"	parameterType="string"	resultMap="userSelectMap">
+		SELECT
+		u.user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date, <include refid="user_coupon_column"/>, thumbnail_image 		
+		FROM users u 
+		LEFT OUTER JOIN user_coupon uc ON uc.user_id=u.user_id
+		LEFT OUTER JOIN kakao k ON k.kakao_id=u.kakao_id
+		WHERE k.kakao_id = #{value}
+	 </select>
+	 
 	 <select 	id="getKakao"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
 		kakao_id, nickname , profile_image  , thumbnail_image 		

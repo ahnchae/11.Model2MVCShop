@@ -43,16 +43,16 @@ public class UserController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
-	@RequestMapping( value="addUserForKakao", method=RequestMethod.POST )
-	public String addUserForKakao(@ModelAttribute User user) throws Exception{
-		System.out.println("/user/addUserForKakao : POST");
-		System.out.println("~~~~~~~~~User : "+user);
-		//이미 가입된 아이디 있는지 조회
-		User dbKakaoUser = userService.getKakao(user.getKakaoId());
-		
-		//addUserView에 해당 데이터 전해주기
-		return "forward:/user/addUserView.jsp";
-	}
+//	@RequestMapping( value="addUserForKakao", method=RequestMethod.POST )
+//	public String addUserForKakao(@ModelAttribute User user) throws Exception{
+//		System.out.println("/user/addUserForKakao : POST");
+//		System.out.println("~~~~~~~~~User : "+user);
+//		//이미 가입된 아이디 있는지 조회
+//		User dbKakaoUser = userService.checkDuplicationKakao(user.getKakaoId());
+//		
+//		//addUserView에 해당 데이터 전해주기
+//		return "forward:/user/addUserView.jsp";
+//	}
 	
 	//@RequestMapping("/addUserView.do")
 	//public String addUserView() throws Exception {
@@ -149,11 +149,17 @@ public class UserController {
 		
 		System.out.println("/user/login : POST");
 		//Business Logic
-		User dbUser=userService.getUser(user.getUserId());
-		
-		if( user.getPassword().equals(dbUser.getPassword())){
+		User dbUser;
+		if(user.getUserId()!=null) {
+			dbUser=userService.getUser(user.getUserId());
+				if( user.getPassword().equals(dbUser.getPassword())){
+					session.setAttribute("user", dbUser);
+				}
+		}else if(user.getKakaoId()!=null) {
+			dbUser = userService.getUserKakao(user.getKakaoId());
 			session.setAttribute("user", dbUser);
 		}
+		
 		
 		return "redirect:/index.jsp";
 	}

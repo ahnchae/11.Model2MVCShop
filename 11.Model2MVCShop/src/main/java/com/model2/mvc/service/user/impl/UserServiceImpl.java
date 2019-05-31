@@ -96,8 +96,14 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User getKakao(String kakaoId) throws Exception {
+	public User checkDuplicationKakao(String kakaoId) throws Exception {
 		// TODO Auto-generated method stub
-		return userDao.getKakao(kakaoId);
+		return userDao.checkDupliactionKakao(kakaoId);
+	}
+
+	@Override
+	public User getUserKakao(String kakaoId) throws Exception {
+		// TODO Auto-generated method stub
+		return userDao.getUserKakao(kakaoId);
 	}
 }

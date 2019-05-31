@@ -170,7 +170,7 @@ public class UserRestController {
 		
 		System.out.println("/user/json/checkKakao : POST");
 		//Business Logic
-		User dbKakaoUser=userService.getKakao(kakaoId);
+		User dbKakaoUser=userService.checkDuplicationKakao(kakaoId);
 		Map<String, String> map = new HashMap<>();
 		if(dbKakaoUser==null) {
 			map.put("message", "ok");
